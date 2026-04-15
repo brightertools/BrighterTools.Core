@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore ./BrighterTools.sln
+
+      - name: Build
+        run: dotnet build ./BrighterTools.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ./BrighterTools.sln --configuration Release --no-build --verbosity normal
+
+      - name: Pack NuGet packages
+        run: |
+          dotnet pack ./BrighterTools.Common/BrighterTools.Common.csproj --configuration Release --no-build -o ./artifacts
