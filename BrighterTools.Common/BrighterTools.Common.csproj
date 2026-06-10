@@ -23,4 +23,8 @@
   <ItemGroup>
     <Compile Remove="TypeExtensions\ClaimsPrincipleExtensions.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
